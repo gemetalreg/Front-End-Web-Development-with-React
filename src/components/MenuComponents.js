@@ -21,7 +21,7 @@ function Menu(props) {
         <Card>
           <CardImg top src={dish.image} alt={dish.name} />
           <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
+            <CardTitle tag="h5">{dish.name}</CardTitle>
             <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
@@ -37,7 +37,7 @@ function Menu(props) {
         <Card key={dish.id} onClick={() => onDishSelect(dish)}>
           <CardImg width="100%" src={dish.image} alt={dish.name} />
           <CardImgOverlay>
-            <CardTitle>{dish.name}</CardTitle>
+            <CardTitle tag="h5">{dish.name}</CardTitle>
           </CardImgOverlay>
         </Card>
       </div>

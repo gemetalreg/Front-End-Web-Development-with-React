@@ -20,6 +20,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+    "rules": {
+    "react-hooks/rules-of-hooks": "error", // Проверяем правила хуков
+    "react-hooks/exhaustive-deps": "warn" // Проверяем зависимости эффекта
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -37,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }

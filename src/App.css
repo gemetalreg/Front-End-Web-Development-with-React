@@ -35,3 +35,19 @@ address {
 .navbar-dark {
   background-color: #512da8;
 }
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.jumbotron,
+.footer {
+  margin: 0;
+}
+
+.home,
+.contactus {
+  flex-grow: 1;
+}

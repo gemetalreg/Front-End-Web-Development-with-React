@@ -1,5 +1,15 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle, List } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Breadcrumb,
+  BreadcrumbItem,
+  List,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
 function RenderDish({ dish }) {
   if (dish == null) {
@@ -17,17 +27,17 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ dish }) {
-  if (dish == null) {
+function RenderComments({ comments }) {
+  if (comments == null) {
     return <div></div>;
   }
 
   return (
     <List type="unstyled">
       <h5>Comments</h5>
-      {dish.comments.map((commentObj) => {
+      {comments.map((commentObj) => {
         return (
-          <li key={dish.comments.id}>
+          <li key={commentObj.id}>
             <p>{commentObj.comment}</p>
             <p>
               --{commentObj.author},{" "}
@@ -49,6 +59,14 @@ const DishDetail = (props) => {
     return (
       <div className="container">
         <div className="row">
+          <div className="row">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <Link to="/menu">Menu</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
           <div className="col-12 col-md-5 m-1">
             <RenderDish dish={props.dish} />
           </div>
@@ -59,11 +77,19 @@ const DishDetail = (props) => {
   return (
     <div className="container">
       <div className="row">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/menu">Menu</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+      <div className="row">
         <div className="col-12 col-md-5 m-1">
           <RenderDish dish={props.dish} />
         </div>
         <div className="col-12 col-md-5 m-1">
-          <RenderComments dish={props.dish} />
+          <RenderComments comments={props.comments} />
         </div>
       </div>
     </div>

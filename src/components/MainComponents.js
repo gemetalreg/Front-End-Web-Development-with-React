@@ -14,6 +14,7 @@ import Footer from "./FooterComponent";
 import Menu from "./MenuComponents";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
+import About from "./AboutusComponent";
 
 import DISHES from "../shared/dishes";
 import COMMENTS from "../shared/comments";
@@ -54,6 +55,9 @@ function Main(props) {
           </Route>
           <Route exact path="/menu">
             <Menu dishes={dishes} />
+          </Route>
+          <Route exact path="/aboutus">
+            <About leaders={leaders} />
           </Route>
           <Route path="/menu/:dishId">
             <DishWithId dishes={dishes} comments={comments} />

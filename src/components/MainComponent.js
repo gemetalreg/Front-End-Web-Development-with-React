@@ -14,7 +14,7 @@ import Footer from "./FooterComponent";
 import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
-import About from "./AboutusComponent";
+import About from "./AboutComponent";
 
 import DISHES from "../shared/dishes";
 import COMMENTS from "../shared/comments";

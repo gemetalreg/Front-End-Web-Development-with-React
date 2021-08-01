@@ -9,9 +9,9 @@ import {
 } from "react-router-dom";
 
 import Home from "./HomeComponent";
-import Header from "./HeaderComponents";
+import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import Menu from "./MenuComponents";
+import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
 import About from "./AboutusComponent";

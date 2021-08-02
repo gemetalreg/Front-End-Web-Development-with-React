@@ -117,7 +117,10 @@ const Contact = (props) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Col md={{ size: 6, offset: 2 }}>
+              <Col
+                md={{ size: 6, offset: 2 }}
+                className="d-flex align-items-center"
+              >
                 <FormGroup check>
                   <Label check>
                     <Input
@@ -125,6 +128,7 @@ const Contact = (props) => {
                       name="agree"
                       checked={contactInfo.agree}
                       onChange={handleInputChange}
+                      className="position-static mr-2"
                     />{" "}
                     <strong>May we contact you?</strong>
                   </Label>

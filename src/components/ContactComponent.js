@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,6 +8,7 @@ import {
   Label,
   Input,
   Col,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,20 @@ const Contact = (props) => {
     message: "",
   });
 
+  const touchedFields = useRef({
+    firstname: false,
+    lastname: false,
+    telnum: false,
+    email: false,
+  });
+
+  const [errors, setErrors] = useState({
+    firstname: "",
+    lastname: "",
+    telnum: "",
+    email: "",
+  });
+
   function handleInputChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -30,11 +45,55 @@ const Contact = (props) => {
     setContactInfo({ ...contactInfo, [name]: value });
   }
 
+  function handleBlur(event) {
+    const { name } = event.target;
+
+    let isTouched = touchedFields.current[name];
+    if (!isTouched) {
+      touchedFields.current = { ...touchedFields.current, [name]: true };
+    }
+
+    validate(contactInfo);
+  }
+
+  function validate({ firstname, lastname, telnum, email }) {
+    const validate_errors = {
+      firstname: "",
+      lastname: "",
+      telnum: "",
+      email: "",
+    };
+
+    if (touchedFields.current.firstname && firstname.length < 3) {
+      validate_errors["firstname"] = "First Name should be >= 3 characters";
+    } else if (touchedFields.current.firstname && firstname.length > 10) {
+      validate_errors["firstname"] = "First Name should be <= 10 characters";
+    }
+
+    if (touchedFields.current.lastname && lastname.length < 3) {
+      validate_errors["lastname"] = "First Name should be >= 3 characters";
+    } else if (touchedFields.current.lastname && lastname.length > 10) {
+      validate_errors["lastname"] = "Last Name should be <= 10 characters";
+    }
+
+    const reg = /^\d+$/;
+    if (touchedFields.current.telnum && !reg.test(telnum)) {
+      validate_errors["telnum"] = "Tel. Number should contain only numbers";
+    }
+
+    if (touchedFields.current.email && !email.includes("@")) {
+      validate_errors["email"] = "Email should contain a @";
+    }
+
+    setErrors(validate_errors);
+  }
+
   function handleSubmit(event) {
     console.log("Current State is: " + JSON.stringify(contactInfo));
     alert("Current State is: " + JSON.stringify(contactInfo));
     event.preventDefault();
   }
+
   return (
     <div className="container contactus">
       <div className="row">
@@ -67,8 +126,12 @@ const Contact = (props) => {
                   name="firstname"
                   placeholder="First Name"
                   value={contactInfo.firstname}
+                  valid={errors.firstname === ""}
+                  invalid={errors.firstname !== ""}
+                  onBlur={handleBlur}
                   onChange={handleInputChange}
                 />
+                <FormFeedback>{errors.firstname}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -82,8 +145,12 @@ const Contact = (props) => {
                   name="lastname"
                   placeholder="Last Name"
                   value={contactInfo.lastname}
+                  valid={errors.lastname === ""}
+                  invalid={errors.lastname !== ""}
+                  onBlur={handleBlur}
                   onChange={handleInputChange}
                 />
+                <FormFeedback>{errors.lastname}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -95,10 +162,14 @@ const Contact = (props) => {
                   type="tel"
                   id="telnum"
                   name="telnum"
-                  placeholder="Tel. number"
+                  placeholder="Tel. Number"
                   value={contactInfo.telnum}
+                  valid={errors.telnum === ""}
+                  invalid={errors.telnum !== ""}
+                  onBlur={handleBlur}
                   onChange={handleInputChange}
                 />
+                <FormFeedback>{errors.telnum}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -112,8 +183,12 @@ const Contact = (props) => {
                   name="email"
                   placeholder="Email"
                   value={contactInfo.email}
+                  valid={errors.email === ""}
+                  invalid={errors.email !== ""}
+                  onBlur={handleBlur}
                   onChange={handleInputChange}
                 />
+                <FormFeedback>{errors.email}</FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {} from "reactstrap";
 import {
   BrowserRouter,
@@ -7,6 +7,7 @@ import {
   Redirect,
   useParams,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Home from "./HomeComponent";
 import Header from "./HeaderComponent";
@@ -15,11 +16,6 @@ import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishdetailComponent";
 import About from "./AboutComponent";
-
-import DISHES from "../shared/dishes";
-import COMMENTS from "../shared/comments";
-import PROMOTIONS from "../shared/promotions";
-import LEADERS from "../shared/leaders";
 
 function DishWithId(props) {
   let { dishId } = useParams();
@@ -35,11 +31,7 @@ function DishWithId(props) {
 }
 
 function Main(props) {
-  const [dishes] = useState(DISHES);
-  const [comments] = useState(COMMENTS);
-  const [promotions] = useState(PROMOTIONS);
-  const [leaders] = useState(LEADERS);
-
+  const state = useSelector((state) => state);
   return (
     <BrowserRouter>
       <div className="Main">
@@ -47,19 +39,19 @@ function Main(props) {
         <Switch>
           <Route path="/home">
             <Home
-              dish={dishes.filter((dish) => dish.featured)[0]}
-              promotion={promotions.filter((promo) => promo.featured)[0]}
-              leader={leaders.filter((leader) => leader.featured)[0]}
+              dish={state.dishes.filter((dish) => dish.featured)[0]}
+              promotion={state.promotions.filter((promo) => promo.featured)[0]}
+              leader={state.leaders.filter((leader) => leader.featured)[0]}
             />
           </Route>
           <Route exact path="/menu">
-            <Menu dishes={dishes} />
+            <Menu dishes={state.dishes} />
           </Route>
           <Route exact path="/aboutus">
-            <About leaders={leaders} />
+            <About leaders={state.leaders} />
           </Route>
           <Route path="/menu/:dishId">
-            <DishWithId dishes={dishes} comments={comments} />
+            <DishWithId dishes={state.dishes} comments={state.comments} />
           </Route>
           <Route exact path="/contactus">
             <Contact />

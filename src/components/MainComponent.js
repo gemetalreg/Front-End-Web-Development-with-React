@@ -39,7 +39,6 @@ function Main(props) {
   const [comments] = useState(COMMENTS);
   const [promotions] = useState(PROMOTIONS);
   const [leaders] = useState(LEADERS);
-  // const [selectedDishId, setSelectedDishId] = useState(null);
 
   return (
     <BrowserRouter>

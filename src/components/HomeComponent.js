@@ -8,7 +8,7 @@ import {
   CardSubtitle,
 } from "reactstrap";
 
-function RenderCard({ item }) {
+const MRenderCard = React.memo(function RenderCard({ item }) {
   return (
     <Card>
       <CardImg src={item.image} alt={item.name} />
@@ -21,23 +21,23 @@ function RenderCard({ item }) {
       </CardBody>
     </Card>
   );
-}
+});
 
 function Home(props) {
   return (
     <div className="container">
       <div className="row align-items-start">
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.dish} />
+          <MRenderCard item={props.dish} />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.promotion} />
+          <MRenderCard item={props.promotion} />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.leader} />
+          <MRenderCard item={props.leader} />
         </div>
       </div>
     </div>
   );
 }
-export default Home;
+export default React.memo(Home);

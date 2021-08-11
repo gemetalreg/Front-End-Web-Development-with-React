@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-function RenderDish({ dish }) {
+const MRenderDish = React.memo(function RenderDish({ dish }) {
   if (dish == null) {
     return <div></div>;
   }
@@ -25,9 +25,9 @@ function RenderDish({ dish }) {
       </CardBody>
     </Card>
   );
-}
+});
 
-function RenderComments({ comments }) {
+const MRenderComments = React.memo(function RenderComments({ comments }) {
   if (comments == null) {
     return <div></div>;
   }
@@ -52,7 +52,7 @@ function RenderComments({ comments }) {
       })}
     </List>
   );
-}
+});
 
 const DishDetail = (props) => {
   if (props.dish == null) {
@@ -86,14 +86,14 @@ const DishDetail = (props) => {
       </div>
       <div className="row">
         <div className="col-12 col-md-5 m-1">
-          <RenderDish dish={props.dish} />
+          <MRenderDish dish={props.dish} />
         </div>
         <div className="col-12 col-md-5 m-1">
-          <RenderComments comments={props.comments} />
+          <MRenderComments comments={props.comments} />
         </div>
       </div>
     </div>
   );
 };
 
-export default DishDetail;
+export default React.memo(DishDetail);

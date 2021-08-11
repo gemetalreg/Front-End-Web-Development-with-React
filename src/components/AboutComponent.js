@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-function RenderLeader({ leader }) {
+const MRenderLeader = React.memo(function RenderLeader({ leader }) {
   return (
     <Media tag="li" key={leader.id} className="mb-5">
       <Media left href="#" className="mr-3">
@@ -24,11 +24,11 @@ function RenderLeader({ leader }) {
       </Media>
     </Media>
   );
-}
+});
 
 function About(props) {
   const leaders = props.leaders.map((leader) => {
-    return <RenderLeader leader={leader} />;
+    return <MRenderLeader leader={leader} />;
   });
 
   return (
@@ -114,4 +114,4 @@ function About(props) {
   );
 }
 
-export default About;
+export default React.memo(About);

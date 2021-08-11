@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
-function RenderMenuItem({ dish }) {
+const MRenderMenuItem = React.memo(function RenderMenuItem({ dish }) {
   return (
     <Card key={dish.id}>
       <Link to={`/menu/${dish.id}`}>
@@ -20,7 +20,7 @@ function RenderMenuItem({ dish }) {
       </Link>
     </Card>
   );
-}
+});
 
 const Menu = (props) => {
   return (
@@ -41,7 +41,7 @@ const Menu = (props) => {
         {props.dishes.map((dish) => {
           return (
             <div className="col-12 col-md-5 m-1">
-              <RenderMenuItem dish={dish} />
+              <MRenderMenuItem dish={dish} />
             </div>
           );
         })}
@@ -50,4 +50,4 @@ const Menu = (props) => {
   );
 };
 
-export default Menu;
+export default React.memo(Menu);

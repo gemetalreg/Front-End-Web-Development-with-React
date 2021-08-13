@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/jsx-pascal-case */
+import React, { useState } from "react";
 import {
   Card,
   CardImg,
@@ -8,8 +9,110 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   List,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Row,
+  Label,
 } from "reactstrap";
+import { LocalForm, Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+
+const CommentForm = (props) => {
+  function handleSubmit(values) {
+    console.log("Current State is: " + JSON.stringify(values));
+    alert("Current State is: " + JSON.stringify(values));
+    toggle();
+  }
+
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
+
+  return (
+    <div>
+      <Button outline color="secondary" onClick={toggle}>
+        <i className="fa fa-pencil" aria-hidden="true"></i> Submit Comment
+      </Button>
+      <Modal isOpen={modal} toggle={toggle} centered={true}>
+        <ModalHeader toggle={toggle}>Submit Comment</ModalHeader>
+        <ModalBody>
+          <LocalForm
+            className="container"
+            onSubmit={(values) => handleSubmit(values)}
+          >
+            <Row className="form-group mb-4">
+              <Label htmlFor="commentRating" className="h6">
+                Rating
+              </Label>
+              <Control.select
+                model=".rating"
+                name="rating"
+                id="commentRating"
+                className="form-control"
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </Control.select>
+            </Row>
+            <Row className="form-group mb-4">
+              <Label htmlFor="commentAuthor" className="h6">
+                Author
+              </Label>
+              <Control.text
+                model=".author"
+                name="author"
+                id="commentAuthor"
+                placeholder="Jogesh Muppala"
+                className="form-control"
+                validators={{
+                  required,
+                  minLength: minLength(3),
+                  maxLength: maxLength(15),
+                }}
+              />
+              <Errors
+                className="text-danger"
+                model=".author"
+                show="touched"
+                messages={{
+                  required: "Required",
+                  minLength: "Must be greater than 2 characters",
+                  maxLength: "Must be 15 characters or less",
+                }}
+              />
+            </Row>
+            <Row className="form-group mb-4">
+              <Label htmlFor="commentComment" className="h6">
+                Comment
+              </Label>
+              <Control.textarea
+                model=".comment"
+                name="comment"
+                id="commentComment"
+                className="form-control"
+                placeholder="This is a comment"
+              />
+            </Row>
+            <Row>
+              <Button color="primary" type="submit">
+                Submit
+              </Button>
+            </Row>
+          </LocalForm>
+        </ModalBody>
+      </Modal>
+    </div>
+  );
+};
 
 const MRenderDish = React.memo(function RenderDish({ dish }) {
   if (dish == null) {
@@ -33,24 +136,27 @@ const MRenderComments = React.memo(function RenderComments({ comments }) {
   }
 
   return (
-    <List type="unstyled">
-      <h5>Comments</h5>
-      {comments.map((commentObj) => {
-        return (
-          <li key={commentObj.id}>
-            <p>{commentObj.comment}</p>
-            <p>
-              --{commentObj.author},{" "}
-              {new Intl.DateTimeFormat("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "2-digit",
-              }).format(new Date(Date.parse(commentObj.date)))}
-            </p>
-          </li>
-        );
-      })}
-    </List>
+    <React.Fragment>
+      <List type="unstyled">
+        <h5>Comments</h5>
+        {comments.map((commentObj) => {
+          return (
+            <li key={commentObj.id}>
+              <p>{commentObj.comment}</p>
+              <p>
+                --{commentObj.author},{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(commentObj.date)))}
+              </p>
+            </li>
+          );
+        })}
+      </List>
+      <CommentForm />
+    </React.Fragment>
   );
 });
 
@@ -68,7 +174,7 @@ const DishDetail = (props) => {
             </Breadcrumb>
           </div>
           <div className="col-12 col-md-5 m-1">
-            <RenderDish dish={props.dish} />
+            <MRenderDish dish={props.dish} />
           </div>
         </div>
       </div>

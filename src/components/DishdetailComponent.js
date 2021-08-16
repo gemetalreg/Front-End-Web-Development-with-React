@@ -20,6 +20,7 @@ import { LocalForm, Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
 import { addComment } from "../redux/ActionCreators";
 import { useDispatch } from "react-redux";
+import Loading from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -170,6 +171,23 @@ const MRenderComments = React.memo(function RenderComments({
 });
 
 const DishDetail = (props) => {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    );
+  }
   if (props.dish == null) {
     return (
       <div className="container">
@@ -179,11 +197,7 @@ const DishDetail = (props) => {
               <BreadcrumbItem>
                 <Link to="/menu">Menu</Link>
               </BreadcrumbItem>
-              <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
             </Breadcrumb>
-          </div>
-          <div className="col-12 col-md-5 m-1">
-            <MRenderDish dish={props.dish} />
           </div>
         </div>
       </div>

@@ -8,7 +8,19 @@ import {
   CardSubtitle,
 } from "reactstrap";
 
-const MRenderCard = React.memo(function RenderCard({ item }) {
+import Loading from "./LoadingComponent";
+
+const MRenderCard = React.memo(function RenderCard({
+  item,
+  isLoading,
+  errMess,
+}) {
+  if (isLoading) {
+    return <Loading />;
+  } else if (errMess) {
+    return <h4>{errMess}</h4>;
+  }
+
   return (
     <Card>
       <CardImg src={item.image} alt={item.name} />
@@ -28,7 +40,11 @@ function Home(props) {
     <div className="container">
       <div className="row align-items-start">
         <div className="col-12 col-md m-1">
-          <MRenderCard item={props.dish} />
+          <MRenderCard
+            item={props.dish}
+            isLoading={props.dishesLoading}
+            errMess={props.dishesErrMess}
+          />
         </div>
         <div className="col-12 col-md m-1">
           <MRenderCard item={props.promotion} />

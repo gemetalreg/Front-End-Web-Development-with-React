@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {} from "reactstrap";
 import {
   BrowserRouter,
@@ -7,7 +7,8 @@ import {
   Redirect,
   useParams,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDishes } from "../redux/ActionCreators";
 
 import Home from "./HomeComponent";
 import Header from "./HeaderComponent";
@@ -25,12 +26,21 @@ function DishWithId(props) {
       comments={props.comments.filter(
         (comment) => comment.dishId === parseInt(dishId, 10)
       )}
+      isLoading={props.isLoading}
+      errMess={props.errMess}
     />
   );
 }
 
 function Main(props) {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  console.log(state.dishes.dishes);
+
+  useEffect(() => {
+    dispatch(fetchDishes());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className="Main">
@@ -38,7 +48,9 @@ function Main(props) {
         <Switch>
           <Route path="/home">
             <Home
-              dish={state.dishes.filter((dish) => dish.featured)[0]}
+              dish={state.dishes.dishes.filter((dish) => dish.featured)[0]}
+              dishesLoading={state.dishes.isLoading}
+              dishesErrMess={state.dishes.errMess}
               promotion={state.promotions.filter((promo) => promo.featured)[0]}
               leader={state.leaders.filter((leader) => leader.featured)[0]}
             />
@@ -50,7 +62,12 @@ function Main(props) {
             <About leaders={state.leaders} />
           </Route>
           <Route path="/menu/:dishId">
-            <DishWithId dishes={state.dishes} comments={state.comments} />
+            <DishWithId
+              dishes={state.dishes.dishes}
+              comments={state.comments}
+              isLoading={state.dishes.isLoading}
+              errMess={state.dishes.errMess}
+            />
           </Route>
           <Route exact path="/contactus">
             <Contact />

@@ -19,7 +19,6 @@ import About from "./AboutComponent";
 
 function DishWithId(props) {
   let { dishId } = useParams();
-  console.log(dishId);
   return (
     <DishDetail
       dish={props.dishes.filter((dish) => dish.id === parseInt(dishId, 10))[0]}

@@ -18,19 +18,25 @@ import {
 } from "reactstrap";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
+import { addComment } from "../redux/ActionCreators";
+import { useDispatch } from "react-redux";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
 
-const CommentForm = (props) => {
+const CommentForm = ({ dishId }) => {
   function handleSubmit(values) {
     console.log("Current State is: " + JSON.stringify(values));
+    console.log("dishId: ", dishId);
+
     alert("Current State is: " + JSON.stringify(values));
     toggle();
+    dispatch(addComment(dishId, values.rating, values.author, values.comment));
   }
 
   const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
 
@@ -130,7 +136,10 @@ const MRenderDish = React.memo(function RenderDish({ dish }) {
   );
 });
 
-const MRenderComments = React.memo(function RenderComments({ comments }) {
+const MRenderComments = React.memo(function RenderComments({
+  dishId,
+  comments,
+}) {
   if (comments == null) {
     return <div></div>;
   }
@@ -155,7 +164,7 @@ const MRenderComments = React.memo(function RenderComments({ comments }) {
           );
         })}
       </List>
-      <CommentForm />
+      <CommentForm dishId={dishId} />
     </React.Fragment>
   );
 });
@@ -195,7 +204,7 @@ const DishDetail = (props) => {
           <MRenderDish dish={props.dish} />
         </div>
         <div className="col-12 col-md-5 m-1">
-          <MRenderComments comments={props.comments} />
+          <MRenderComments dishId={props.dish.id} comments={props.comments} />
         </div>
       </div>
     </div>

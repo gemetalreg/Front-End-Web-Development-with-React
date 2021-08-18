@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import {} from "reactstrap";
 import {
   BrowserRouter,
@@ -8,6 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { actions } from "react-redux-form";
 import { fetchDishes } from "../redux/ActionCreators";
 
 import Home from "./HomeComponent";
@@ -35,10 +36,13 @@ function DishWithId(props) {
 function Main(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log(state.dishes.dishes);
 
   useEffect(() => {
     dispatch(fetchDishes());
+  }, [dispatch]);
+
+  const resetFeedbackForm = useCallback(() => {
+    dispatch(actions.reset("feedback"));
   }, [dispatch]);
 
   return (
@@ -70,7 +74,7 @@ function Main(props) {
             />
           </Route>
           <Route exact path="/contactus">
-            <Contact />
+            <Contact resetFeedbackForm={resetFeedbackForm} />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>

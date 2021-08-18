@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { addComment } from "../redux/ActionCreators";
 import { useDispatch } from "react-redux";
 import Loading from "./LoadingComponent";
+import { baseUrlJoin } from "../shared/baseUrl";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -128,7 +129,7 @@ const MRenderDish = React.memo(function RenderDish({ dish }) {
 
   return (
     <Card>
-      <CardImg top src={dish.image} alt={dish.name} />
+      <CardImg top src={baseUrlJoin(dish.image)} alt={dish.name} />
       <CardBody>
         <CardTitle tag="h5">{dish.name}</CardTitle>
         <CardText>{dish.description}</CardText>

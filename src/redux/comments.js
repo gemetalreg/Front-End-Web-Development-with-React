@@ -1,13 +1,21 @@
-import COMMENTS from "../shared/comments";
 import * as ActionTypes from "./ActionTypes";
 
-export const Comments = (state = COMMENTS, action) => {
+const initialSate = { errMess: null, comments: [] };
+
+export const Comments = (state = initialSate, action) => {
   switch (action.type) {
+    case ActionTypes.ADD_COMMENTS:
+      return { ...state, errMess: null, comments: action.payload };
+
+    case ActionTypes.COMMENTS_FAILED:
+      return { ...state, errMess: action.payload };
+
     case ActionTypes.ADD_COMMENT:
-      const comment = action.payload;
-      comment.id = state.length;
-      console.log("ADD_COMMENT: ", comment);
-      return state.concat(comment);
+      var comment = action.payload;
+      comment.id = state.comments.length;
+      comment.date = new Date().toISOString();
+      return { ...state, comments: state.comments.concat(comment) };
+
     default:
       return state;
   }

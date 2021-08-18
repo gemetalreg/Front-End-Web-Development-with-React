@@ -1,9 +1,8 @@
 import * as ActionTypes from "./ActionTypes";
 
-export const Dishes = (
-  state = { isLoading: true, errMess: null, dishes: [] },
-  action
-) => {
+const initialState = { isLoading: true, errMess: null, dishes: [] };
+
+export const Dishes = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ADD_DISHES:
       return {

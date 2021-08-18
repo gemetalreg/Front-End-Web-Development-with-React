@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 
 import Loading from "./LoadingComponent";
+import { baseUrlJoin } from "../shared/baseUrl";
 
 const MRenderCard = React.memo(function RenderCard({
   item,
@@ -23,7 +24,7 @@ const MRenderCard = React.memo(function RenderCard({
 
   return (
     <Card>
-      <CardImg src={item.image} alt={item.name} />
+      <CardImg src={baseUrlJoin(item.image)} alt={item.name} />
       <CardBody>
         <CardTitle>{item.name}</CardTitle>
         {item.designation ? (
@@ -47,7 +48,11 @@ function Home(props) {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <MRenderCard item={props.promotion} />
+          <MRenderCard
+            item={props.promotion}
+            isLoading={props.promoLoading}
+            errMess={props.promoErrMess}
+          />
         </div>
         <div className="col-12 col-md m-1">
           <MRenderCard item={props.leader} />

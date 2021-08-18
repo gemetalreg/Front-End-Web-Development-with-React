@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { baseUrlJoin } from "../shared/baseUrl";
 
 import Loading from "./LoadingComponent";
 
@@ -15,7 +16,7 @@ const MRenderMenuItem = React.memo(function RenderMenuItem({ dish }) {
   return (
     <Card key={dish.id}>
       <Link to={`/menu/${dish.id}`}>
-        <CardImg width="100%" src={dish.image} alt={dish.name} />
+        <CardImg width="100%" src={baseUrlJoin(dish.image)} alt={dish.name} />
         <CardImgOverlay>
           <CardTitle tag="h5">{dish.name}</CardTitle>
         </CardImgOverlay>

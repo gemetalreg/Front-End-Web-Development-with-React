@@ -9,7 +9,11 @@ import {
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "react-redux-form";
-import { fetchDishes } from "../redux/ActionCreators";
+import {
+  fetchDishes,
+  fetchPromos,
+  fetchComments,
+} from "../redux/ActionCreators";
 
 import Home from "./HomeComponent";
 import Header from "./HeaderComponent";
@@ -39,6 +43,8 @@ function Main(props) {
 
   useEffect(() => {
     dispatch(fetchDishes());
+    dispatch(fetchComments());
+    dispatch(fetchPromos());
   }, [dispatch]);
 
   const resetFeedbackForm = useCallback(() => {
@@ -55,7 +61,11 @@ function Main(props) {
               dish={state.dishes.dishes.filter((dish) => dish.featured)[0]}
               dishesLoading={state.dishes.isLoading}
               dishesErrMess={state.dishes.errMess}
-              promotion={state.promotions.filter((promo) => promo.featured)[0]}
+              promotion={
+                state.promotions.promotions.filter((promo) => promo.featured)[0]
+              }
+              promoLoading={state.promotions.isLoading}
+              promoErrMess={state.promotions.errMess}
               leader={state.leaders.filter((leader) => leader.featured)[0]}
             />
           </Route>
@@ -68,9 +78,10 @@ function Main(props) {
           <Route path="/menu/:dishId">
             <DishWithId
               dishes={state.dishes.dishes}
-              comments={state.comments}
               isLoading={state.dishes.isLoading}
               errMess={state.dishes.errMess}
+              comments={state.comments.comments}
+              commentsErrMess={state.comments.errMess}
             />
           </Route>
           <Route exact path="/contactus">

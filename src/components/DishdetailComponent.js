@@ -18,7 +18,7 @@ import {
 } from "reactstrap";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
-import { addComment } from "../redux/ActionCreators";
+import { postComment } from "../redux/ActionCreators";
 import { useDispatch } from "react-redux";
 import Loading from "./LoadingComponent";
 import { baseUrlJoin } from "../shared/baseUrl";
@@ -34,7 +34,7 @@ const CommentForm = ({ dishId }) => {
 
     alert("Current State is: " + JSON.stringify(values));
     toggle();
-    dispatch(addComment(dishId, values.rating, values.author, values.comment));
+    dispatch(postComment(dishId, values.rating, values.author, values.comment));
   }
 
   const [modal, setModal] = useState(false);

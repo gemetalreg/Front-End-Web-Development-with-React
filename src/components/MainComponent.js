@@ -1,13 +1,15 @@
 import React, { useEffect, useCallback } from "react";
 import {} from "reactstrap";
 import {
-  BrowserRouter,
   Switch,
   Route,
   Redirect,
   useParams,
+  useLocation,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import { actions } from "react-redux-form";
 import {
   fetchDishes,
@@ -40,6 +42,7 @@ function DishWithId(props) {
 function Main(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchDishes());
@@ -52,46 +55,50 @@ function Main(props) {
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
-      <div className="Main">
-        <Header />
-        <Switch>
-          <Route path="/home">
-            <Home
-              dish={state.dishes.dishes.filter((dish) => dish.featured)[0]}
-              dishesLoading={state.dishes.isLoading}
-              dishesErrMess={state.dishes.errMess}
-              promotion={
-                state.promotions.promotions.filter((promo) => promo.featured)[0]
-              }
-              promoLoading={state.promotions.isLoading}
-              promoErrMess={state.promotions.errMess}
-              leader={state.leaders.filter((leader) => leader.featured)[0]}
-            />
-          </Route>
-          <Route exact path="/menu">
-            <Menu dishes={state.dishes} />
-          </Route>
-          <Route exact path="/aboutus">
-            <About leaders={state.leaders} />
-          </Route>
-          <Route path="/menu/:dishId">
-            <DishWithId
-              dishes={state.dishes.dishes}
-              isLoading={state.dishes.isLoading}
-              errMess={state.dishes.errMess}
-              comments={state.comments.comments}
-              commentsErrMess={state.comments.errMess}
-            />
-          </Route>
-          <Route exact path="/contactus">
-            <Contact resetFeedbackForm={resetFeedbackForm} />
-          </Route>
-          <Redirect to="/home"></Redirect>
-        </Switch>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <div className="Main">
+      <Header />
+      <TransitionGroup>
+        <CSSTransition key={location.key} classNames="page" timeout={300}>
+          <Switch location={location}>
+            <Route path="/home">
+              <Home
+                dish={state.dishes.dishes.filter((dish) => dish.featured)[0]}
+                dishesLoading={state.dishes.isLoading}
+                dishesErrMess={state.dishes.errMess}
+                promotion={
+                  state.promotions.promotions.filter(
+                    (promo) => promo.featured
+                  )[0]
+                }
+                promoLoading={state.promotions.isLoading}
+                promoErrMess={state.promotions.errMess}
+                leader={state.leaders.filter((leader) => leader.featured)[0]}
+              />
+            </Route>
+            <Route exact path="/menu">
+              <Menu dishes={state.dishes} />
+            </Route>
+            <Route exact path="/aboutus">
+              <About leaders={state.leaders} />
+            </Route>
+            <Route path="/menu/:dishId">
+              <DishWithId
+                dishes={state.dishes.dishes}
+                isLoading={state.dishes.isLoading}
+                errMess={state.dishes.errMess}
+                comments={state.comments.comments}
+                commentsErrMess={state.comments.errMess}
+              />
+            </Route>
+            <Route exact path="/contactus">
+              <Contact resetFeedbackForm={resetFeedbackForm} />
+            </Route>
+            <Redirect to="/home"></Redirect>
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
+      <Footer />
+    </div>
   );
 }
 

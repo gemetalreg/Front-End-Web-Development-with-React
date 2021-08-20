@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardImg,
@@ -22,6 +22,7 @@ import { postComment } from "../redux/ActionCreators";
 import { useDispatch } from "react-redux";
 import Loading from "./LoadingComponent";
 import { baseUrlJoin } from "../shared/baseUrl";
+import { CSSTransition } from "react-transition-group";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -123,18 +124,26 @@ const CommentForm = ({ dishId }) => {
 };
 
 const MRenderDish = React.memo(function RenderDish({ dish }) {
+  const [transitionState, setTransitionState] = useState(false);
+
+  useEffect(() => {
+    setTransitionState(true);
+  }, []);
+
   if (dish == null) {
     return <div></div>;
   }
 
   return (
-    <Card>
-      <CardImg top src={baseUrlJoin(dish.image)} alt={dish.name} />
-      <CardBody>
-        <CardTitle tag="h5">{dish.name}</CardTitle>
-        <CardText>{dish.description}</CardText>
-      </CardBody>
-    </Card>
+    <CSSTransition in={transitionState} classNames="homecards" timeout={500}>
+      <Card>
+        <CardImg top src={baseUrlJoin(dish.image)} alt={dish.name} />
+        <CardBody>
+          <CardTitle tag="h5">{dish.name}</CardTitle>
+          <CardText>{dish.description}</CardText>
+        </CardBody>
+      </Card>
+    </CSSTransition>
   );
 });
 
@@ -142,6 +151,14 @@ const MRenderComments = React.memo(function RenderComments({
   dishId,
   comments,
 }) {
+  const defaultStyle = (i) => {
+    return {
+      opacity: "0",
+      animation: `fade 500ms forwards`,
+      animationDelay: `${i * 200}ms`,
+    };
+  };
+
   if (comments == null) {
     return <div></div>;
   }
@@ -150,9 +167,9 @@ const MRenderComments = React.memo(function RenderComments({
     <React.Fragment>
       <List type="unstyled">
         <h5>Comments</h5>
-        {comments.map((commentObj) => {
+        {comments.map((commentObj, index) => {
           return (
-            <li key={commentObj.id}>
+            <li key={commentObj.id} style={{ ...defaultStyle(index) }}>
               <p>{commentObj.comment}</p>
               <p>
                 --{commentObj.author},{" "}

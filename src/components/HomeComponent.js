@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardImg,
@@ -10,12 +10,19 @@ import {
 
 import Loading from "./LoadingComponent";
 import { baseUrlJoin } from "../shared/baseUrl";
+import { CSSTransition } from "react-transition-group";
 
 const MRenderCard = React.memo(function RenderCard({
   item,
   isLoading,
   errMess,
 }) {
+  const [transitionStatus, setTransitionStatus] = useState(false);
+
+  useEffect(() => {
+    setTransitionStatus(true);
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   } else if (errMess) {
@@ -23,16 +30,18 @@ const MRenderCard = React.memo(function RenderCard({
   }
 
   return (
-    <Card>
-      <CardImg src={baseUrlJoin(item.image)} alt={item.name} />
-      <CardBody>
-        <CardTitle>{item.name}</CardTitle>
-        {item.designation ? (
-          <CardSubtitle>{item.designation}</CardSubtitle>
-        ) : null}
-        <CardText>{item.description}</CardText>
-      </CardBody>
-    </Card>
+    <CSSTransition in={transitionStatus} classNames="homecards" timeout={500}>
+      <Card>
+        <CardImg src={baseUrlJoin(item.image)} alt={item.name} />
+        <CardBody>
+          <CardTitle>{item.name}</CardTitle>
+          {item.designation ? (
+            <CardSubtitle>{item.designation}</CardSubtitle>
+          ) : null}
+          <CardText>{item.description}</CardText>
+        </CardBody>
+      </Card>
+    </CSSTransition>
   );
 });
 
@@ -55,7 +64,11 @@ function Home(props) {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <MRenderCard item={props.leader} />
+          <MRenderCard
+            item={props.leader}
+            isLoading={props.leaderLoading}
+            errMess={props.leaderErrMess}
+          />
         </div>
       </div>
     </div>

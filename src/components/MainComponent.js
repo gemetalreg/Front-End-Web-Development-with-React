@@ -15,6 +15,7 @@ import {
   fetchDishes,
   fetchPromos,
   fetchComments,
+  fetchLeaders,
 } from "../redux/ActionCreators";
 
 import Home from "./HomeComponent";
@@ -46,6 +47,7 @@ function Main(props) {
 
   useEffect(() => {
     dispatch(fetchDishes());
+    dispatch(fetchLeaders());
     dispatch(fetchComments());
     dispatch(fetchPromos());
   }, [dispatch]);
@@ -72,7 +74,11 @@ function Main(props) {
                 }
                 promoLoading={state.promotions.isLoading}
                 promoErrMess={state.promotions.errMess}
-                leader={state.leaders.filter((leader) => leader.featured)[0]}
+                leader={
+                  state.leaders.leaders.filter((leader) => leader.featured)[0]
+                }
+                leaderLoading={state.leaders.isLoading}
+                leaderErrMess={state.leaders.errMess}
               />
             </Route>
             <Route exact path="/menu">

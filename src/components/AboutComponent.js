@@ -8,12 +8,24 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import Loading from "./LoadingComponent";
+import { baseUrlJoin } from "../shared/baseUrl";
 
-const MRenderLeader = React.memo(function RenderLeader({ leader }) {
+const MRenderLeader = React.memo(function RenderLeader({
+  leader,
+  isLoading,
+  errMess,
+}) {
+  if (isLoading) {
+    return <Loading />;
+  } else if (errMess) {
+    return <h4>{errMess}</h4>;
+  }
+
   return (
     <Media tag="li" key={leader.id} className="mb-5">
       <Media left href="#" className="mr-3">
-        <Media object src={leader.image} alt={leader.name} />
+        <Media object src={baseUrlJoin(leader.image)} alt={leader.name} />
       </Media>
       <Media body>
         <Media heading>
@@ -27,8 +39,14 @@ const MRenderLeader = React.memo(function RenderLeader({ leader }) {
 });
 
 function About(props) {
-  const leaders = props.leaders.map((leader) => {
-    return <MRenderLeader leader={leader} />;
+  const leaders = props.leaders.leaders.map((leader) => {
+    return (
+      <MRenderLeader
+        leader={leader}
+        isLoading={props.leaders.isLoading}
+        errMess={props.leaders.errMess}
+      />
+    );
   });
 
   return (

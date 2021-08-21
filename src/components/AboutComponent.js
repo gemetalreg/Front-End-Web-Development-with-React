@@ -15,7 +15,16 @@ const MRenderLeader = React.memo(function RenderLeader({
   leader,
   isLoading,
   errMess,
+  order,
 }) {
+  const defaultStyle = (i) => {
+    return {
+      opacity: "0",
+      animation: `fade 1500ms forwards`,
+      animationDelay: `${i * 400}ms`,
+    };
+  };
+
   if (isLoading) {
     return <Loading />;
   } else if (errMess) {
@@ -23,7 +32,12 @@ const MRenderLeader = React.memo(function RenderLeader({
   }
 
   return (
-    <Media tag="li" key={leader.id} className="mb-5">
+    <Media
+      tag="li"
+      key={leader.id}
+      className="mb-5"
+      style={{ ...defaultStyle(order) }}
+    >
       <Media left href="#" className="mr-3">
         <Media object src={baseUrlJoin(leader.image)} alt={leader.name} />
       </Media>
@@ -39,12 +53,13 @@ const MRenderLeader = React.memo(function RenderLeader({
 });
 
 function About(props) {
-  const leaders = props.leaders.leaders.map((leader) => {
+  const leaders = props.leaders.leaders.map((leader, index) => {
     return (
       <MRenderLeader
         leader={leader}
         isLoading={props.leaders.isLoading}
         errMess={props.leaders.errMess}
+        order={index}
       />
     );
   });

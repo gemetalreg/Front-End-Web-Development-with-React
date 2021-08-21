@@ -14,7 +14,7 @@ import Loading from "./LoadingComponent";
 
 const MRenderMenuItem = React.memo(function RenderMenuItem({ dish }) {
   return (
-    <Card key={dish.id}>
+    <Card>
       <Link to={`/menu/${dish.id}`}>
         <CardImg width="100%" src={baseUrlJoin(dish.image)} alt={dish.name} />
         <CardImgOverlay>
@@ -63,7 +63,7 @@ const Menu = ({ dishes }) => {
         {dishes.dishes.map((dish) => {
           return (
             <div className="col-12 col-md-5 m-1">
-              <MRenderMenuItem dish={dish} />
+              <MRenderMenuItem dish={dish} key={dish.id} />
             </div>
           );
         })}

@@ -16,6 +16,7 @@ import {
   fetchPromos,
   fetchComments,
   fetchLeaders,
+  postFeedback,
 } from "../redux/ActionCreators";
 
 import Home from "./HomeComponent";
@@ -55,6 +56,13 @@ function Main(props) {
   const resetFeedbackForm = useCallback(() => {
     dispatch(actions.reset("feedback"));
   }, [dispatch]);
+
+  const postFeedbackForm = useCallback(
+    (feedback) => {
+      dispatch(postFeedback(feedback));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="Main">
@@ -97,7 +105,10 @@ function Main(props) {
               />
             </Route>
             <Route exact path="/contactus">
-              <Contact resetFeedbackForm={resetFeedbackForm} />
+              <Contact
+                resetFeedbackForm={resetFeedbackForm}
+                postFeedback={postFeedbackForm}
+              />
             </Route>
             <Redirect to="/home"></Redirect>
           </Switch>

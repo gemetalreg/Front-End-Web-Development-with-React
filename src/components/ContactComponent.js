@@ -20,8 +20,7 @@ const validEmail = (val) =>
 
 const Contact = (props) => {
   function handleSubmit(values) {
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
+    props.postFeedback(values);
     props.resetFeedbackForm();
   }
 

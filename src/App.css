@@ -47,8 +47,7 @@ address {
   margin: 0;
 }
 
-.home,
-.contactus {
+.central {
   flex-grow: 1;
 }
 

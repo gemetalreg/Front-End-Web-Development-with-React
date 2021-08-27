@@ -67,7 +67,7 @@ function Main(props) {
   return (
     <div className="Main">
       <Header />
-      <TransitionGroup>
+      <TransitionGroup className="central">
         <CSSTransition key={location.key} classNames="page" timeout={300}>
           <Switch location={location}>
             <Route path="/home">

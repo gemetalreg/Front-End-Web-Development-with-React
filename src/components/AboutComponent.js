@@ -32,12 +32,7 @@ const MRenderLeader = React.memo(function RenderLeader({
   }
 
   return (
-    <Media
-      tag="li"
-      key={leader.id}
-      className="mb-5"
-      style={{ ...defaultStyle(order) }}
-    >
+    <Media tag="li" className="mb-5" style={{ ...defaultStyle(order) }}>
       <Media left href="#" className="mr-3">
         <Media object src={baseUrlJoin(leader.image)} alt={leader.name} />
       </Media>
@@ -56,6 +51,7 @@ function About(props) {
   const leaders = props.leaders.leaders.map((leader, index) => {
     return (
       <MRenderLeader
+        key={leader.id}
         leader={leader}
         isLoading={props.leaders.isLoading}
         errMess={props.leaders.errMess}

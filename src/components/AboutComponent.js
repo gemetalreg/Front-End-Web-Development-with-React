@@ -20,8 +20,7 @@ const MRenderLeader = React.memo(function RenderLeader({
   const defaultStyle = (i) => {
     return {
       opacity: "0",
-      animation: `fade 1500ms forwards`,
-      animationDelay: `${i * 400}ms`,
+      animation: `fade 1500ms forwards ${i * 400}ms`,
     };
   };
 

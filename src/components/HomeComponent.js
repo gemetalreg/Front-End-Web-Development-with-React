@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Card,
   CardImg,
@@ -17,12 +17,6 @@ const MRenderCard = React.memo(function RenderCard({
   isLoading,
   errMess,
 }) {
-  const [transitionStatus, setTransitionStatus] = useState(false);
-
-  useEffect(() => {
-    setTransitionStatus(true);
-  }, []);
-
   if (isLoading) {
     return <Loading />;
   } else if (errMess) {
@@ -30,7 +24,13 @@ const MRenderCard = React.memo(function RenderCard({
   }
 
   return (
-    <CSSTransition in={transitionStatus} classNames="homecards" timeout={500}>
+    <CSSTransition
+      in={true}
+      appear
+      classNames="homecards"
+      timeout={500}
+      exit={false}
+    >
       <Card>
         <CardImg src={baseUrlJoin(item.image)} alt={item.name} />
         <CardBody>

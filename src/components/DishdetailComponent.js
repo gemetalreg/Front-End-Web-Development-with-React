@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardImg,
@@ -124,18 +124,18 @@ const CommentForm = ({ dishId }) => {
 };
 
 const MRenderDish = React.memo(function RenderDish({ dish }) {
-  const [transitionState, setTransitionState] = useState(false);
-
-  useEffect(() => {
-    setTransitionState(true);
-  }, []);
-
   if (dish == null) {
     return <div></div>;
   }
 
   return (
-    <CSSTransition in={transitionState} classNames="homecards" timeout={500}>
+    <CSSTransition
+      in={true}
+      appear
+      exit={false}
+      classNames="homecards"
+      timeout={500}
+    >
       <Card>
         <CardImg top src={baseUrlJoin(dish.image)} alt={dish.name} />
         <CardBody>
@@ -154,8 +154,7 @@ const MRenderComments = React.memo(function RenderComments({
   const defaultStyle = (i) => {
     return {
       opacity: "0",
-      animation: `fade 500ms forwards`,
-      animationDelay: `${i * 200}ms`,
+      animation: `fade 500ms forwards ${i * 200}ms`,
     };
   };
 

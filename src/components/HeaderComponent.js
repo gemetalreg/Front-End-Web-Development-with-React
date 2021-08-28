@@ -16,6 +16,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import { baseUrlJoin } from "../shared/baseUrl";
 import { NavLink } from "react-router-dom";
 
 const Header = (props) => {
@@ -58,7 +59,7 @@ const Header = (props) => {
           <NavbarToggler onClick={toggleNav} />
           <NavbarBrand className="mr-auto" href="/">
             <img
-              src="assets/images/logo.png"
+              src={baseUrlJoin("images/logo.png")}
               height="30"
               width="41"
               alt="Ristorante Con Fusion"

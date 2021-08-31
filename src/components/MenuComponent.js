@@ -12,9 +12,9 @@ import { baseUrlJoin } from "../shared/baseUrl";
 
 import Loading from "./LoadingComponent";
 
-const MRenderMenuItem = React.memo(function RenderMenuItem({ dish }) {
+const MRenderMenuItem = React.memo(function RenderMenuItem({ dish, key }) {
   return (
-    <Card>
+    <Card key={key}>
       <Link to={`/menu/${dish.id}`}>
         <CardImg width="100%" src={baseUrlJoin(dish.image)} alt={dish.name} />
         <CardImgOverlay>

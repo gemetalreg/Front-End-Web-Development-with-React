@@ -134,7 +134,7 @@ const Header = (props) => {
                 innerRef={passwordData}
               />
             </FormGroup>
-            <FormGroup check>
+            <FormGroup check className="mb-3">
               <Label check>
                 <Input
                   type="checkbox"

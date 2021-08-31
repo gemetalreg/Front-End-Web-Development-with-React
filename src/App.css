@@ -51,6 +51,10 @@ address {
   flex-grow: 1;
 }
 
+.btn-google {
+  width: 40px;
+}
+
 .page-enter {
   opacity: 0.01;
   transform: translateX(-100%);
